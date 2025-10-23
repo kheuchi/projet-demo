@@ -1,0 +1,32 @@
+name: plan
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  terragrunt-plan:
+    uses: ORG/.github/.github/workflows/terragrunt-plan.yml@v1
+    secrets: inherit
+    with:
+      working-directory: .
+    # Fallback inline si pas de template:
+    # runs-on: ubuntu-latest
+    # permissions:
+    #   contents: read
+    #   id-token: write
+    # steps:
+    #   - uses: actions/checkout@v4
+    #   - uses: google-github-actions/auth@v2
+    #     with:
+    #       workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+    #       service_account: ${{ secrets.GCP_TERRAFORM_SA }}
+    #   - uses: hashicorp/setup-terraform@v3
+    #   - run: |
+    #       sudo curl -L https://github.com/gruntwork-io/terragrunt/releases/download/v0.66.7/terragrunt_linux_amd64 -o /usr/local/bin/terragrunt
+    #       sudo chmod +x /usr/local/bin/terragrunt
+    #   - name: Plan (run-all)
+    #     working-directory: .
+    #     env:
+    #       TG_STATE_BUCKET: ${{ secrets.TG_STATE_BUCKET }}
+    #       TG_STATE_PROJECT: ${{ secrets.TG_STATE_PROJECT }}
+    #     run: terragrunt run-all plan --terragrunt-non-interactive
